@@ -6,3 +6,7 @@
 .idea/modules.xml
 
 .idea/spiders.iml
+
+*.pdf
+
+.idea/vcs.xml

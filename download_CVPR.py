@@ -12,6 +12,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Download Paper from CVPR')
 parser.add_argument('--keyword', type=str, required=True, help='which keyword to search')
+parser.add_argument('--conference', type=str, choices=['CVPR', 'ICCV'],default='CVPR', help='which confernece to search')
 parser.add_argument('--year', type=int, default=2017, help='which year CVPR open')
 parser.add_argument('--operate', type=str, choices=['download', 'show'], default='download', help='download or show')
 parser.add_argument('--download', type=str, choices=['percent', 'detail'], default='percent',
@@ -25,7 +26,7 @@ handler = urllib2.HTTPCookieProcessor(cookie)
 opener = urllib2.build_opener(handler)
 
 
-def search_paper_list(conference='CVPR', year=opt.year, word=None):
+def search_paper_list(conference=opt.conference, year=opt.year, word=None):
     """
     :param conference:
     :param year:
@@ -95,7 +96,7 @@ def download_by_keyword(word, diction):
     :return:
     """
     total = len(diction)
-    save_path = word + "_search_paper_in_cvpr"
+    save_path = word + "_"+opt.conference+"_"+str(opt.year)
     if not os.path.exists(save_path):
         os.mkdir(save_path)
     js = 0
