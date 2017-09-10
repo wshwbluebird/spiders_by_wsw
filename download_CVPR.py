@@ -39,11 +39,16 @@ def search_paper_list(conference=opt.conference, year=opt.year, word=None):
     post_data = urllib.urlencode(data)
     # urllib进行编码
     url = "http://openaccess.thecvf.com/" + conference + str(year) + "_search.py"
+    print url
     if word is None:
         url = "http://openaccess.thecvf.com/" + conference + str(year) + ".py"
         post_data = None
+    # noinspection PyBroadException
+    try:
+        response1 = opener.open(fullurl=url, data=post_data)
+    except:
+        return []
 
-    response1 = opener.open(fullurl=url, data=post_data)
     source = response1.read()
 
     # make xml tools
@@ -113,7 +118,7 @@ def download_by_keyword(word, diction):
         if paper['supp'] is not None:
             download_by_url(paper['supp'], "./" + save_path + "/" + paper['title'] + "_supplement.pdf", percent)
 
-    print "Done :  "+percent
+    print "Done :  "+percent+"             "
 
 
 def download_by_url(url, path, percent):
@@ -140,6 +145,8 @@ def download_by_url(url, path, percent):
 
 def main():
     diction = search_paper_list(word=opt.keyword)
+    if len(diction) == 0:
+        print 'no paper found in '+ "http://openaccess.thecvf.com/"
     if opt.operate == 'download':
         download_by_keyword(word=opt.keyword, diction=diction)
     else:
