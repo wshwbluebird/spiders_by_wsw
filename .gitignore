@@ -10,3 +10,7 @@
 *.pdf
 
 .idea/vcs.xml
+
+*.html
+
+tempt/paper0912.key
